@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Mail\BookingCompletedMailing;
+use App\Mail\Welcome;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -28,6 +30,14 @@ Route::get('book',function ()
 {
     $email = 'shouter@bk.ru';
     Mail::to($email)->send(new BookingCompletedMailing());
+    return response()->json(['status' => 'success']);
+});
+
+Route::get('hello',function ()
+{
+    $user = Auth::user();
+    $email = 'shouter@bk.ru';
+    Mail::to($email)->send(new Welcome($user));
     return response()->json(['status' => 'success']);
 });
 
